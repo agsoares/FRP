@@ -8,7 +8,6 @@
 
 import UIKit
 
-
 class LayoutManager: NSObject {
     static let shared = LayoutManager()
 
@@ -16,14 +15,11 @@ class LayoutManager: NSObject {
 
     var lightFontColor  = UIColor(red:0.93, green:0.95, blue:0.96, alpha:1.00)
 
-
-
-    func styleNavigationBar(navigationBar : UINavigationBar) {
+    func styleNavigationBar(navigationBar: UINavigationBar) {
         navigationBar.barTintColor = navigationColor
         navigationBar.tintColor    = lightFontColor
-        navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : lightFontColor]
+        navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: lightFontColor]
 
-        
     }
 
 }

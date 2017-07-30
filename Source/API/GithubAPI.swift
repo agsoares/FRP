@@ -49,7 +49,7 @@ extension GithubService: TargetType {
     var parameterEncoding: ParameterEncoding {
         switch self {
         case .getUser, .getRepos:
-            return URLEncoding.default // Send parameters in URL for GET, DELETE and HEAD. For other HTTP methods, parameters will be sent in request body
+            return URLEncoding.default
         }
     }
     var sampleData: Data {
@@ -63,7 +63,6 @@ extension GithubService: TargetType {
         }
     }
 }
-
 
 class GithubAPI: NSObject {
     let provider   = ReactiveSwiftMoyaProvider<GithubService>()
@@ -88,9 +87,7 @@ class GithubAPI: NSObject {
             }
         }
 
-
         return result
     }
 
 }
-

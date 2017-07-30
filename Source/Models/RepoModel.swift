@@ -10,7 +10,7 @@ import UIKit
 import ObjectMapper
 
 class RepoModel: Mappable {
-    var fullName : String?
+    var fullName: String?
 
     required init?(map: Map) {
 
@@ -19,6 +19,5 @@ class RepoModel: Mappable {
     func mapping(map: Map) {
         self.fullName <- map["full_name"]
     }
-
 
 }

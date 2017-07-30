@@ -13,8 +13,8 @@ import ReactiveCocoa
 
 class MainViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate {
 
-    var tableView : UITableView!
-    var searchBar : UISearchBar!
+    var tableView: UITableView!
+    var searchBar: UISearchBar!
 
     let viewModel = MainViewModel()
 
@@ -23,15 +23,14 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         self.automaticallyAdjustsScrollViewInsets = false
 
         self.tableView = UITableView()
-        self.tableView.delegate   = self;
-        self.tableView.dataSource = self;
-        self.view.addSubview(tableView);
+        self.tableView.delegate   = self
+        self.tableView.dataSource = self
+        self.view.addSubview(tableView)
 
         self.searchBar = UISearchBar()
-        self.searchBar.delegate = self;
+        self.searchBar.delegate = self
         self.searchBar.autocapitalizationType = UITextAutocapitalizationType.none
         self.view.addSubview(searchBar)
-
 
         self.searchBar.reactive.text <~ self.viewModel.searchText
 
@@ -47,7 +46,6 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         self.setupStyles()
 
     }
-
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.viewModel.repos.value.count
