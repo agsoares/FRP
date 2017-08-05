@@ -33,6 +33,10 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
             self.tableView.reloadData()
         }
 
+        self.viewModel.user.signal.observeValues { user in
+            self.userView.user.swap(user)
+        }
+
         self.setupConstraints()
         self.setupStyles()
 

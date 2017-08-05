@@ -89,5 +89,27 @@ class GithubAPI: NSObject {
 
         return result
     }
+    func getUser(username: String) -> MutableProperty<UserModel?> {
+        let result = MutableProperty<UserModel?>(nil)
+        provider.request(.getUser(username: username)).start { event in
+            switch event {
+            case .value(let response):
+                do {
+                    let user = Mapper<UserModel>().map(JSONObject: try response.mapJSON())
+                    result.value = user
+                } catch {
+                    print("parsing error")
+                }
+
+            case .failed(let error):
+                print (error.localizedDescription)
+            default:
+                break
+            }
+        }
+
+
+        return result
+    }
 
 }

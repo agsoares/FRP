@@ -10,13 +10,15 @@ import UIKit
 import ObjectMapper
 
 class UserModel: Mappable {
-    var fullName: String?
+    var login: String?
+    var avatar: String?
 
     required init?(map: Map) {
 
     }
 
     func mapping(map: Map) {
-        self.fullName <- map["full_name"]
+        self.login  <- map["login"]
+        self.avatar <- map["avatar_url"]
     }
 }

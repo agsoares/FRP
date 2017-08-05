@@ -7,15 +7,31 @@
 //
 
 import UIKit
+import ReactiveSwift
 import Cartography
+import Kingfisher
 
 class UserView: UIView {
     let avatarView = UIImageView()
     let labelName  = UILabel()
 
+    var user = MutableProperty<UserModel?>(nil)
+
     init() {
         super.init(frame: CGRect.zero)
         self.setupViews()
+
+        user.signal.observeValues { user in
+            if let user = user, let avatarUrl = user.avatar {
+                if let url = URL(string: avatarUrl) {
+                    self.avatarView.kf.setImage(with: url)
+                }
+
+            } else {
+
+            }
+
+        }
 
         self.setupConstraints()
         self.setupStyles()

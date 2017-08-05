@@ -3,3 +3,4 @@ github "Hearst-DD/ObjectMapper"      ~> 2.2
 github "ReactiveCocoa/ReactiveCocoa" ~> 6.0
 github "thoughtbot/Runes"            ~> 4.1
 github "robb/Cartography"            ~> 1.1
+github "onevcat/Kingfisher"          ~> 3.0
