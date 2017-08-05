@@ -13,24 +13,15 @@ import ReactiveCocoa
 
 class MainViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate {
 
-    var tableView: UITableView!
-    var searchBar: UISearchBar!
+    let tableView = UITableView()
+    let searchBar = UISearchBar()
+    let userView  = UserView()
 
     let viewModel = MainViewModel()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.automaticallyAdjustsScrollViewInsets = false
-
-        self.tableView = UITableView()
-        self.tableView.delegate   = self
-        self.tableView.dataSource = self
-        self.view.addSubview(tableView)
-
-        self.searchBar = UISearchBar()
-        self.searchBar.delegate = self
-        self.searchBar.autocapitalizationType = UITextAutocapitalizationType.none
-        self.view.addSubview(searchBar)
+        self.setupViews()
 
         self.searchBar.reactive.text <~ self.viewModel.searchText
 
@@ -63,8 +54,23 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         return cell
     }
 
+    func setupViews () {
+        self.automaticallyAdjustsScrollViewInsets = false
+
+        self.tableView.delegate   = self
+        self.tableView.dataSource = self
+        self.view.addSubview(tableView)
+
+        self.searchBar.delegate = self
+        self.searchBar.autocapitalizationType = UITextAutocapitalizationType.none
+        self.view.addSubview(searchBar)
+
+        self.view.addSubview(userView)
+
+    }
+
     func setupConstraints () {
-        constrain(tableView, searchBar) { tableView, searchBar in
+        constrain(tableView, searchBar, userView) { tableView, searchBar, userView in
             if let superView = searchBar.superview {
                 searchBar.top    == topLayoutGuideCartography
                 searchBar.left   == superView.left
@@ -72,8 +78,15 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
                 searchBar.height == 50
             }
 
+            if let superView = userView.superview {
+                userView.top    == searchBar.bottom
+                userView.left   == superView.left
+                userView.right  == superView.right
+                userView.height == 100
+            }
+
             if let superView = tableView.superview {
-                tableView.top    == searchBar.bottomMargin
+                tableView.top    == userView.bottom
                 tableView.bottom == bottomLayoutGuideCartography
                 tableView.left   == superView.left
                 tableView.right  == superView.right
@@ -86,6 +99,8 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         if let navigationBar = self.navigationController?.navigationBar {
             LayoutManager.shared.styleNavigationBar(navigationBar: navigationBar)
         }
+
+        self.searchBar.barTintColor = LayoutManager.shared.navigationColor
 
     }
 }

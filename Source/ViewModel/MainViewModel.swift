@@ -11,12 +11,13 @@ import ReactiveSwift
 import Moya
 
 class MainViewModel: NSObject {
-    let searchText = MutableProperty<String>("")
+    let searchText = MutableProperty<String?>(nil)
     let repos      = MutableProperty<[RepoModel]> ([])
+    let user       = MutableProperty<UserModel?>(nil)
 
     override init() {
         super.init()
-        searchText.signal.delay(0.5, on: QueueScheduler.main).observeValues { [weak self] text in
+        searchText.signal.delay(0.5, on: QueueScheduler.main).skipNil().observeValues { [weak self] text in
             GithubAPI().getRepos(username: text).signal.observeValues { repos in
                 self?.repos.value = repos
             }
