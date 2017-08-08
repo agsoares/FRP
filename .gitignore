@@ -70,6 +70,5 @@ fastlane/test_output
 Packages
 .build
 xcuserdata
-*.xcodeproj
 
 # End of https://www.gitignore.io/api/Swift,carthage
