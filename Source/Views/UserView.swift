@@ -19,7 +19,7 @@ class UserView: UIView {
 
     init() {
         super.init(frame: CGRect.zero)
-        self.setupViews()
+        setupViews()
 
         user.signal.observeValues { user in
             if let user = user, let avatarUrl = user.avatar {
@@ -33,8 +33,8 @@ class UserView: UIView {
 
         }
 
-        self.setupConstraints()
-        self.setupStyles()
+        setupConstraints()
+        setupStyles()
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -42,8 +42,8 @@ class UserView: UIView {
     }
 
     func setupViews() {
-        self.addSubview(avatarView)
-        self.addSubview(labelName)
+        addSubview(avatarView)
+        addSubview(labelName)
     }
 
     func setupConstraints () {
@@ -60,15 +60,15 @@ class UserView: UIView {
     }
 
     func setupStyles () {
-        self.backgroundColor = LayoutManager.shared.navigationColor
-        self.avatarView.clipsToBounds = true
-        self.avatarView.backgroundColor = UIColor.white
+        backgroundColor = LayoutManager.shared.navigationColor
+        avatarView.clipsToBounds = true
+        avatarView.backgroundColor = UIColor.white
     }
 
     override func layoutSubviews() {
         super.layoutSubviews()
         layoutIfNeeded()
-        self.avatarView.layer.cornerRadius = self.avatarView.frame.size.width/2.0
+        avatarView.layer.cornerRadius = avatarView.frame.size.width/2.0
     }
 
 }

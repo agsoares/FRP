@@ -65,11 +65,11 @@ extension GithubService: TargetType {
 }
 
 class GithubAPI: NSObject {
-    let provider   = ReactiveSwiftMoyaProvider<GithubService>()
+    let provider   = MoyaProvider<GithubService>()
 
     func getRepos(username: String) -> MutableProperty<[RepoModel]> {
         let result = MutableProperty<[RepoModel]>([])
-        provider.request(.getRepos(username: username)).start { event in
+        provider.reactive.request(.getRepos(username: username)).start { event in
             switch event {
             case .value(let response):
                 do {
@@ -89,9 +89,10 @@ class GithubAPI: NSObject {
 
         return result
     }
+
     func getUser(username: String) -> MutableProperty<UserModel?> {
         let result = MutableProperty<UserModel?>(nil)
-        provider.request(.getUser(username: username)).start { event in
+        provider.reactive.request(.getUser(username: username)).start { event in
             switch event {
             case .value(let response):
                 do {
@@ -107,7 +108,6 @@ class GithubAPI: NSObject {
                 break
             }
         }
-
 
         return result
     }

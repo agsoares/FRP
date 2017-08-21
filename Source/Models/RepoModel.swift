@@ -17,7 +17,7 @@ class RepoModel: Mappable {
     }
 
     func mapping(map: Map) {
-        self.fullName <- map["full_name"]
+        fullName <- map["full_name"]
     }
 
 }

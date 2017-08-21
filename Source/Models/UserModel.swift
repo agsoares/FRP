@@ -18,7 +18,7 @@ class UserModel: Mappable {
     }
 
     func mapping(map: Map) {
-        self.login  <- map["login"]
-        self.avatar <- map["avatar_url"]
+        login  <- map["login"]
+        avatar <- map["avatar_url"]
     }
 }

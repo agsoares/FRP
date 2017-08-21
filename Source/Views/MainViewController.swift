@@ -10,8 +10,9 @@ import UIKit
 import Cartography
 import ReactiveSwift
 import ReactiveCocoa
+import Runes
 
-class MainViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate {
+class MainViewController: UIViewController {
 
     let tableView = UITableView()
     let searchBar = UISearchBar()
@@ -21,11 +22,11 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.setupViews()
+        setupViews()
 
-        self.searchBar.reactive.text <~ self.viewModel.searchText
+        searchBar.reactive.text <~ viewModel.searchText
 
-        self.searchBar.reactive.continuousTextValues.skipNil().observeValues { text in
+        searchBar.reactive.continuousTextValues.skipNil().observeValues { text in
             self.viewModel.searchText.value = text
         }
 
@@ -37,40 +38,22 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
             self.userView.user.swap(user)
         }
 
-        self.setupConstraints()
-        self.setupStyles()
+        setupConstraints()
+        setupStyles()
 
-    }
-
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.viewModel.repos.value.count
-    }
-
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
-    }
-
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell()
-
-        cell.textLabel?.text = self.viewModel.repos.value[indexPath.row].fullName
-
-        return cell
     }
 
     func setupViews () {
-        self.automaticallyAdjustsScrollViewInsets = false
+        automaticallyAdjustsScrollViewInsets = false
 
-        self.tableView.delegate   = self
-        self.tableView.dataSource = self
-        self.view.addSubview(tableView)
+        tableView.delegate   = self
+        tableView.dataSource = self
+        view.addSubview(tableView)
 
-        self.searchBar.delegate = self
-        self.searchBar.autocapitalizationType = UITextAutocapitalizationType.none
-        self.view.addSubview(searchBar)
+        searchBar.autocapitalizationType = UITextAutocapitalizationType.none
+        view.addSubview(searchBar)
 
-        self.view.addSubview(userView)
-
+        view.addSubview(userView)
     }
 
     func setupConstraints () {
@@ -83,10 +66,10 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
             }
 
             if let superView = userView.superview {
-                userView.top    == searchBar.bottom
-                userView.left   == superView.left
-                userView.right  == superView.right
-                userView.height == 100
+                userView.top     == searchBar.bottom
+                userView.left    == superView.left
+                userView.right   == superView.right
+                userView.height  == 100
             }
 
             if let superView = tableView.superview {
@@ -99,12 +82,32 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
 
     func setupStyles () {
-        self.navigationItem.title = "Repositories"
-        if let navigationBar = self.navigationController?.navigationBar {
+        navigationItem.title = "Repositories"
+        if let navigationBar = navigationController?.navigationBar {
             LayoutManager.shared.styleNavigationBar(navigationBar: navigationBar)
         }
 
-        self.searchBar.barTintColor = LayoutManager.shared.navigationColor
+        searchBar.barTintColor = LayoutManager.shared.navigationColor
 
+    }
+}
+
+// MARK: - UITableViewDelegate, UITableViewDataSource
+
+extension MainViewController : UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return viewModel.repos.value.count
+    }
+
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = UITableViewCell()
+
+        cell.textLabel?.text = viewModel.repos.value[indexPath.row].fullName
+
+        return cell
     }
 }
